@@ -12,8 +12,6 @@ class ProductManeger {
     let id=1
     const n = this.products.length;
     if(n>0){
-      // [1,2,3,4,5]
-      // this.eventos[this.eventos.length-1].id + 1
       id=this.products[n-1].id +1
     }
 
@@ -38,14 +36,14 @@ class ProductManeger {
 // Instancia Objeto------------------------------------------------------------
 const product = new ProductManeger();
 //=============================================================================
-product.addProduct( 'producto prueba','Este es un producto prueba',
-    200, 'Sin Imagen', 'abc123', 25);
-product.addProduct('producto prueba', 'Este es un producto prueba',
-    200, 'Sin Imagen', 'abc124', 25);
-product.addProduct('producto prueba', 'Este es un producto prueba',
-    200, 'Sin Imagen', 'abc125', 25);
-product.addProduct('producto prueba', 'Este es un producto prueba',
-    200, 'Sin Imagen', 'abc124', 25);
+product.addProduct( 'producto prueba0','Este es un producto prueba1',
+    200, 'Sin Imagen', 'abc123', 20);
+product.addProduct('producto prueba1', 'Este es un producto prueba2',
+    200, 'Sin Imagen', 'abc124', 30);
+product.addProduct('producto prueba2', 'Este es un producto prueba3',
+    200, 'Sin Imagen', 'abc125', 40);
+product.addProduct('producto prueba3', 'Este es un producto prueba4',
+    200, 'Sin Imagen', 'abc124', 50);
 //=============================================================================
 console.log(product.getProducts());
 //=============================================================================
