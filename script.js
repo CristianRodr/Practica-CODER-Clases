@@ -7,10 +7,12 @@ class ProductManeger {
         this.products = [];
     }
 
+    //lectura de los productos
     getProducts() {
         return this.products;
     }
 
+    //adicionando productos
     addProduct(title, description, price, thumbnail, code, stock) {
         //id generando automáticamente SIN REPETIRSE
         let id = 1;
@@ -42,15 +44,17 @@ class ProductManeger {
         console.log(found);
     }
 
+    //modificando campo segun id 
     updateProduct(id, cam) {
         const byId = this.products.find((busId) => busId.id === id);
         if ('id' !== cam) {
-            byId[cam] = 'title modify';
+            byId[cam] = 'title modify'; //para modificar 
         } else {
-            console.log('ID no mutable (•_•)');
+            console.log(`id: ${id} no mutable (•_•)`);
         }
     }
 
+    //eliminando segun id
     deleteProduct(id) {
         const index = this.products.findIndex(product => product.id === id);
         if (index !== -1) {
@@ -61,11 +65,11 @@ class ProductManeger {
     }
 }
 
-// Instancia Objeto------------------------------------------------------------
+// Instanciando Objeto------------------------------------------------------------
 const product = new ProductManeger();
-//======retorno array [] vació===========
+//======retorno array [] ===========
 //console.log(product.getProducts());
-//======método “addProduct” con los campos===================================
+//======método “addProduct” con los campos, adicionando===================================
 product.addProduct(
     "producto prueba0",
     "Este es un producto prueba1",
@@ -126,7 +130,7 @@ console.log(product.getProducts()); //debe aparecer el producto recién agregado
 //===================================================================
 
 //Persistencia en memoria
-let rutaProductArchivo = "productManager.json";
+let rutaProductArchivo = "productManager.json"; //creando ruta para el archivo.
 
 //Convirtiendo array en Json
 fs.writeFileSync(rutaProductArchivo, JSON.stringify(product.getProducts(), null, 2));
