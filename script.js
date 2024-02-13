@@ -31,6 +31,13 @@ class ProductManeger {
 
         const product = {id, title, description, price, thumbnail, code, stock};
 
+        const validateField = function (field) {
+            if (Object.values(field).includes(undefined)) {
+                return; 
+            }
+        };
+        validateField(product);//!identificando campo vacio
+
         const campo = Object.values(product);
 
         this.products.push(product);
@@ -65,10 +72,10 @@ class ProductManeger {
     }
 }
 
-// Instanciando Objeto------------------------------------------------------------
+// Instanciando Objeto----------------
 const product = new ProductManeger();
-//======retorno array [] ===========
-//console.log(product.getProducts());
+//====================================
+
 //======método “addProduct” con los campos, adicionando===================================
 product.addProduct(
     "producto prueba0",
@@ -115,33 +122,34 @@ product.addProduct(
     "abc126",
     50
 );
-//======================Pruebas====================================
+
+//==================Pruebas llamando a la funcion============
 product.getProductByID(2); //buscar arreglo con id conincidente
 product.getProductByID(6); //id no coincide arroja error
 //------
 product.updateProduct(1, 'id'); //error al tratar de actualizar ID
-product.updateProduct(1, 'title');// actualization campo
+product.updateProduct(3, 'title');// actualization campo
 //-----
 product.deleteProduct(6); //id no hallado para borrar
 product.deleteProduct(1); //eliminar product que tenga el id
-//===================================================================
+//==========================================================
 console.log('===========productos clase=============');
 console.log(product.getProducts()); //debe aparecer el producto recién agregado
-//===================================================================
+//==========================================================
 
-//Persistencia en memoria
+//!Persistencia en memoria =================================
 let rutaProductArchivo = "productManager.json"; //creando ruta para el archivo.
 
 //Convirtiendo array en Json
 fs.writeFileSync(rutaProductArchivo, JSON.stringify(product.getProducts(), null, 2));
 
 console.log('========lectura archivo, productos fs=========');
-//Lectura, metodo inverso
+//Lectura, metodo inverso del archivo productManager.json
 let fsProductLeido = JSON.parse(fs.readFileSync(rutaProductArchivo));
 console.log(fsProductLeido);
 
-//Operaciones
-console.log('=============operando con Objeto JSON devuelto ===================')
+//Operaciones con el JSON parse
+console.log('========operando con Objeto JSON devuelto ========')
 console.log(fsProductLeido.map(function(product) { 
     return product.title;
 }));
