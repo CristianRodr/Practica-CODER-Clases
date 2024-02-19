@@ -131,6 +131,7 @@ product.addProduct(
     30
 );
 
+//arrojar un error porque falta componente------------------------
 product.addProduct(
     "producto prueba2",
     "Este es un producto prueba3",
@@ -139,7 +140,7 @@ product.addProduct(
     40
 );
 
-//arrojar un error porque el código estará repetido---------------
+
 product.addProduct(
     "producto prueba3",
     "Este es un producto prueba4",
@@ -149,7 +150,7 @@ product.addProduct(
     50
 );
 
-//arrojar un error porque falta componente------------------------
+//arrojar un error porque el código estará repetido---------------
 product.addProduct(
     "producto prueba5",
     "Este es un producto prueba5",
