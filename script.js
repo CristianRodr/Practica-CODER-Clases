@@ -1,51 +1,48 @@
 //Importando fs
-const { log } = require('console');
+const {log} = require('console');
 const fs = require('fs');
 
 class ProductManeger {
-    constructor() {
-        this.products = [];
+    constructor(rutaArchivo) {
+        this.path = rutaArchivo;
     }
 
     //lectura de los productos
     getProducts() {
-        return this.products;
+        if (fs.existsSync(this.path)) {
+            return JSON.parse(fs.readFileSync(this.path, {encoding: "utf-8"}));
+        } else {
+            return [];
+        }
     }
 
     //adicionando productos
     addProduct(title, description, price, thumbnail, code, stock) {
-        //id generando automáticamente SIN REPETIRSE
-        let id = 1;
-        const n = this.products.length;
-        if (n > 0) {
-            id = this.products[n - 1].id + 1;
-        }
+        let products = this.getProducts();
 
-        //error porque CODE estará repetido----
-        let codeExiste = this.products.find((codeVal) => codeVal.code === code);
-
+        let codeExiste = products.find((codeValidator) => codeValidator.code === code);
         if (codeExiste) {
-            console.log(`'Producto <<code ${code}>> existente, cambia code ╰（‵□′）╯`);
+            console.log(`'Producto <<${code}>> existente, cambia code`);
             return;
         }
 
-        const product = {id, title, description, price, thumbnail, code, stock};
+        //error porque CODE estará repetido----
 
-        const validateField = function (field) {
-            if (Object.values(field).includes(undefined)) {
-                return; 
-            }
-        };
-        validateField(product);//!identificando campo vacio
+        //id generando automáticamente SIN REPETIRSE
+        let id = 1
+        if (products.length > 0) {
+            id = Math.max(...products.map(p => p.id)) + 1;
+        }
 
-        const campo = Object.values(product);
+        products.push({id, title, description, price, thumbnail, code, stock});
 
-        this.products.push(product);
+        //Convirtiendo array en Json
+        fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
     }
 
     //methods buscar ID
     getProductByID(id) {
-        const byId = this.products.find((busId) => busId.id === id);
+        const byId = this.getProducts().find((busId) => busId.id === id);
         const found = byId === undefined ?
             `id: ${id} No. Producto no hallado ◑﹏◐` : [byId];
         console.log(found);
@@ -53,36 +50,84 @@ class ProductManeger {
 
     //modificando campo segun id 
     updateProduct(id, cam) {
-        const byId = this.products.find((busId) => busId.id === id);
+        fs.readFile('productM.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error al leer el archivo', + err);
+            }
+            const arregloObjetos = JSON.parse(data);
+
+            const objetoModificar = arregloObjetos.find(objeto => objeto.id === id);
+            if ('id' !== cam) {
+                objetoModificar[cam] = 'titulo modificado';
+            } else {
+                console.error('Error al leer el archivo', + err)
+            }
+
+            fs.writeFile('productM.json', JSON.stringify(arregloObjetos, null, 2),
+                (err) => {
+                if (err) {
+                    console.error('Error al escribir el archivo:', err);
+                } else {
+                    console.log('Archivo actualizado correctamente.');
+                }
+            })
+        })
+
+        /*const byId = this.getProducts().find((busId) => busId.id === id);
         if ('id' !== cam) {
-            byId[cam] = 'title modify'; //para modificar 
+            byId[cam] = 'titulo modificado'; //para modificar
+            fs.writeFileSync(this.path, JSON.stringify(this.getProducts(), null, 2));
         } else {
             console.log(`id: ${id} no mutable (•_•)`);
-        }
+        }*/
     }
 
     //eliminando segun id
     deleteProduct(id) {
-        const index = this.products.findIndex(product => product.id === id);
+        fs.readFile('productM.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error al leer el archivo', + err);
+            }
+            let arregloObjetos = JSON.parse(data);
+            //---------
+            const objetoEliminar = arregloObjetos.findIndex(objeto => objeto.id === id);
+            if (objetoEliminar !== -1) {
+                arregloObjetos.splice(objetoEliminar, 1);
+            } else {
+                console.log(`id: ${id} No valido, no eliminar... X_X `);
+            }
+            //---------
+            fs.writeFile('productM.json', JSON.stringify(arregloObjetos, null, 2),
+                (err) => {
+                    if (err) {
+                        console.error('Error al escribir el archivo:', err);
+                    } else {
+                        console.log('Archivo eliminado correctamente.');
+                    }
+                })
+        })
+
+        /*
+        const index = this.getProducts().findIndex(product => product.id === id);
         if (index !== -1) {
-            this.products.splice(index, 1);
+            this.getProducts().splice(index, 1);
         } else {
             console.log(`id: ${id} No valido, no eliminar... X_X `);
         }
+        */
     }
 }
 
-// Instanciando Objeto----------------
-const product = new ProductManeger();
-//====================================
 
-//======método “addProduct” con los campos, adicionando===================================
+// Instanciando Objeto----------------
+const product = new ProductManeger("./productM.json");
+
 product.addProduct(
     "producto prueba0",
     "Este es un producto prueba1",
     200,
     "Sin Imagen",
-    "abc123",
+    "abc121",
     20
 );
 
@@ -91,7 +136,7 @@ product.addProduct(
     "Este es un producto prueba2",
     200,
     "Sin Imagen",
-    "abc124",
+    "abc122",
     30
 );
 
@@ -100,7 +145,7 @@ product.addProduct(
     "Este es un producto prueba3",
     200,
     "Sin Imagen",
-    "abc125",
+    "abc123",
     40
 );
 
@@ -117,28 +162,35 @@ product.addProduct(
 //arrojar un error porque falta componente------------------------
 product.addProduct(
     "producto prueba5",
+    "Este es un producto prueba5",
     200,
     "Sin Imagen",
-    "abc126",
+    "abc124",
     50
 );
 
-//==================Pruebas llamando a la funcion============
-product.getProductByID(2); //buscar arreglo con id conincidente
-product.getProductByID(6); //id no coincide arroja error
-//------
-product.updateProduct(1, 'id'); //error al tratar de actualizar ID
-product.updateProduct(3, 'title');// actualization campo
-//-----
-product.deleteProduct(6); //id no hallado para borrar
-product.deleteProduct(1); //eliminar product que tenga el id
-//==========================================================
+
+//====================================
+
+//======método “addProduct” con los campos, adicionando===================================
 console.log('===========productos clase=============');
 console.log(product.getProducts()); //debe aparecer el producto recién agregado
+//==================Pruebas llamando a la funcion============
+//console.log('---------------buscando por id-------------------')
+//product.getProductByID(2); //buscar arreglo con id conincidente
+//product.getProductByID(6); //id no coincide arroja error
+console.log('----------------modificando id---------------------')
+//product.updateProduct(1, 'id'); //error al tratar de actualizar ID
+product.updateProduct(3, 'title');// actualization campo
+//------------------------------------------------------------
+//product.deleteProduct(6); //id no hallado para borrar
+//product.deleteProduct(4); //eliminar product que tenga el id
 //==========================================================
 
+//==========================================================
+/*
 //!Persistencia en memoria =================================
-let rutaProductArchivo = "productManager.json"; //creando ruta para el archivo.
+
 
 //Convirtiendo array en Json
 fs.writeFileSync(rutaProductArchivo, JSON.stringify(product.getProducts(), null, 2));
@@ -146,10 +198,12 @@ fs.writeFileSync(rutaProductArchivo, JSON.stringify(product.getProducts(), null,
 console.log('========lectura archivo, productos fs=========');
 //Lectura, metodo inverso del archivo productManager.json
 let fsProductLeido = JSON.parse(fs.readFileSync(rutaProductArchivo));
-console.log(fsProductLeido);
+//console.log(fsProductLeido);
 
 //Operaciones con el JSON parse
+/!*
 console.log('========operando con Objeto JSON devuelto ========')
-console.log(fsProductLeido.map(function(product) { 
+console.log(fsProductLeido.map(function(product) {
     return product.title;
-}));
+}));*!/
+*/
