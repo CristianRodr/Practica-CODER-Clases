@@ -18,15 +18,21 @@ class ProductManeger {
 
     //adicionando productos
     addProduct(title, description, price, thumbnail, code, stock) {
+
+        //Algun argumento faltante
+        if (!(title && description && price && thumbnail && code && stock)) {
+            console.log("ERROR: Faltan datos para agregar el producto");
+            return;
+        }
+
         let products = this.getProducts();
 
+        //error porque CODE estará repetido----
         let codeExiste = products.find((codeValidator) => codeValidator.code === code);
         if (codeExiste) {
             console.log(`'Producto <<${code}>> existente, cambia code`);
             return;
         }
-
-        //error porque CODE estará repetido----
 
         //id generando automáticamente SIN REPETIRSE
         let id = 1
@@ -36,7 +42,7 @@ class ProductManeger {
 
         products.push({id, title, description, price, thumbnail, code, stock});
 
-        //Convirtiendo array en Json
+        //Convirtiendo array en. Json
         fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
     }
 
@@ -63,7 +69,7 @@ class ProductManeger {
                 console.error('Error al leer el archivo', + err)
             }
 
-            fs.writeFile('productM.json', JSON.stringify(arregloObjetos, null, 2),
+            return fs.writeFile('productM.json', JSON.stringify(arregloObjetos, null, 2),
                 (err) => {
                 if (err) {
                     console.error('Error al escribir el archivo:', err);
@@ -72,14 +78,6 @@ class ProductManeger {
                 }
             })
         })
-
-        /*const byId = this.getProducts().find((busId) => busId.id === id);
-        if ('id' !== cam) {
-            byId[cam] = 'titulo modificado'; //para modificar
-            fs.writeFileSync(this.path, JSON.stringify(this.getProducts(), null, 2));
-        } else {
-            console.log(`id: ${id} no mutable (•_•)`);
-        }*/
     }
 
     //eliminando segun id
@@ -88,7 +86,7 @@ class ProductManeger {
             if (err) {
                 console.error('Error al leer el archivo', + err);
             }
-            let arregloObjetos = JSON.parse(data);
+            const arregloObjetos = JSON.parse(data);
             //---------
             const objetoEliminar = arregloObjetos.findIndex(objeto => objeto.id === id);
             if (objetoEliminar !== -1) {
@@ -106,22 +104,15 @@ class ProductManeger {
                     }
                 })
         })
-
-        /*
-        const index = this.getProducts().findIndex(product => product.id === id);
-        if (index !== -1) {
-            this.getProducts().splice(index, 1);
-        } else {
-            console.log(`id: ${id} No valido, no eliminar... X_X `);
-        }
-        */
     }
 }
 
 
-// Instanciando Objeto----------------
+
+//-------------------------Instance Objeto----------------
 const product = new ProductManeger("./productM.json");
 
+//======método “addProduct” con los campos, adicionando===================================
 product.addProduct(
     "producto prueba0",
     "Este es un producto prueba1",
@@ -144,7 +135,6 @@ product.addProduct(
     "producto prueba2",
     "Este es un producto prueba3",
     200,
-    "Sin Imagen",
     "abc123",
     40
 );
@@ -169,41 +159,18 @@ product.addProduct(
     50
 );
 
-
-//====================================
-
-//======método “addProduct” con los campos, adicionando===================================
-console.log('===========productos clase=============');
-console.log(product.getProducts()); //debe aparecer el producto recién agregado
 //==================Pruebas llamando a la funcion============
-//console.log('---------------buscando por id-------------------')
+//console.log('---------------buscando por id----------------
 //product.getProductByID(2); //buscar arreglo con id conincidente
 //product.getProductByID(6); //id no coincide arroja error
-console.log('----------------modificando id---------------------')
+//------------------------modificando id---------------------
 //product.updateProduct(1, 'id'); //error al tratar de actualizar ID
-product.updateProduct(3, 'title');// actualization campo
-//------------------------------------------------------------
+//product.updateProduct(2, 'title');// actualization campo
+//------------------------borrando id------------------------
 //product.deleteProduct(6); //id no hallado para borrar
-//product.deleteProduct(4); //eliminar product que tenga el id
+//product.deleteProduct(3); //eliminar product que tenga el id
+//===========================================================
+console.log('===============productos clase===============');
+console.log(product.getProducts());
 //==========================================================
 
-//==========================================================
-/*
-//!Persistencia en memoria =================================
-
-
-//Convirtiendo array en Json
-fs.writeFileSync(rutaProductArchivo, JSON.stringify(product.getProducts(), null, 2));
-
-console.log('========lectura archivo, productos fs=========');
-//Lectura, metodo inverso del archivo productManager.json
-let fsProductLeido = JSON.parse(fs.readFileSync(rutaProductArchivo));
-//console.log(fsProductLeido);
-
-//Operaciones con el JSON parse
-/!*
-console.log('========operando con Objeto JSON devuelto ========')
-console.log(fsProductLeido.map(function(product) {
-    return product.title;
-}));*!/
-*/
