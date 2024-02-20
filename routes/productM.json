@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "title": "producto prueba0",
+    "description": "Este es un producto prueba1",
+    "price": 200,
+    "thumbnail": "Sin Imagen",
+    "code": "abc121",
+    "stock": 20
+  },
+  {
+    "id": 2,
+    "title": "producto prueba1",
+    "description": "Este es un producto prueba2",
+    "price": 200,
+    "thumbnail": "Sin Imagen",
+    "code": "abc122",
+    "stock": 30
+  },
+  {
+    "id": 3,
+    "title": "Pure de tomate",
+    "description": "producto prueba4",
+    "price": 120,
+    "thumbnail": "Imagen3",
+    "code": "abc124",
+    "stock": 40
+  },
+  {
+    "id": 4,
+    "title": "Atole",
+    "description": "producto prueba5",
+    "price": 110,
+    "thumbnail": "Imagen5",
+    "code": "abc125",
+    "stock": 10
+  },
+  {
+    "id": 5,
+    "title": "Avena",
+    "description": "producto prueba6",
+    "price": 115,
+    "thumbnail": "Imagen6",
+    "code": "abc126",
+    "stock": 15
+  },
+  {
+    "id": 6,
+    "title": "Azúcar",
+    "description": "producto prueba7",
+    "price": 160,
+    "thumbnail": "Imagen7",
+    "code": "abc127",
+    "stock": 34
+  },
+  {
+    "id": 7,
+    "title": "Café",
+    "description": "producto prueba8",
+    "price": 160,
+    "thumbnail": "Imagen8",
+    "code": "abc128",
+    "stock": 33
+  },
+  {
+    "id": 8,
+    "title": "Cereales",
+    "description": "producto prueba9",
+    "price": 160,
+    "thumbnail": "Imagen9",
+    "code": "abc129",
+    "stock": 23
+  },
+  {
+    "id": 9,
+    "title": "Harina",
+    "description": "producto prueba10",
+    "price": 160,
+    "thumbnail": "Imagen10",
+    "code": "abc130",
+    "stock": 25
+  },
+  {
+    "id": 10,
+    "title": "Mole",
+    "description": "producto prueba11",
+    "price": 160,
+    "thumbnail": "Imagen11",
+    "code": "abc131",
+    "stock": 18
+  },
+  {
+    "id": 11,
+    "title": "Sal",
+    "description": "producto prueba12",
+    "price": 160,
+    "thumbnail": "Imagen12",
+    "code": "abc132",
+    "stock": 10
+  },
+  {
+    "id": 12,
+    "title": "Mayonesa",
+    "description": "producto prueba13",
+    "price": 160,
+    "thumbnail": "Imagen13",
+    "code": "abc133",
+    "stock": 11
+  },
+  {
+    "id": 13,
+    "title": "Leche condensada",
+    "description": "producto prueba14",
+    "price": 160,
+    "thumbnail": "Imagen14",
+    "code": "abc134",
+    "stock": 36
+  },
+  {
+    "id": 14,
+    "title": "Leche en polvo",
+    "description": "producto prueba15",
+    "price": 160,
+    "thumbnail": "Imagen15",
+    "code": "abc135",
+    "stock": 78
+  },
+  {
+    "id": 15,
+    "title": "Margarina",
+    "description": "producto prueba16",
+    "price": 160,
+    "thumbnail": "Imagen16",
+    "code": "abc136",
+    "stock": 50
+  },
+  {
+    "id": 16,
+    "title": "Pan dulce",
+    "description": "producto prueba17",
+    "price": 160,
+    "thumbnail": "Imagen17",
+    "code": "abc137",
+    "stock": 29
+  },
+  {
+    "id": 17,
+    "title": "Papas",
+    "description": "producto prueba18",
+    "price": 160,
+    "thumbnail": "Imagen18",
+    "code": "abc138",
+    "stock": 56
+  },
+  {
+    "id": 18,
+    "title": "Shampoo para ropa",
+    "description": "producto prueba19",
+    "price": 160,
+    "thumbnail": "Imagen19",
+    "code": "abc139",
+    "stock": 31
+  },
+  {
+    "id": 19,
+    "title": "Cerillos",
+    "description": "producto prueba20",
+    "price": 5,
+    "thumbnail": "Imagen20",
+    "code": "abc140",
+    "stock": 31
+  },
+  {
+    "id": 20,
+    "title": "Cloro para ropa",
+    "description": "producto prueba21",
+    "price": 10,
+    "thumbnail": "Imagen21",
+    "code": "abc141",
+    "stock": 30
+  }
+]

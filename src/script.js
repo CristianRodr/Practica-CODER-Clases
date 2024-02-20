@@ -8,24 +8,24 @@ class ProductManeger {
     }
 
     //lectura de los productos
-    getProducts() {
+    async getProducts() {
         if (fs.existsSync(this.path)) {
-            return JSON.parse(fs.readFileSync(this.path, {encoding: "utf-8"}));
+            return await JSON.parse(fs.readFileSync(this.path, {encoding: "utf-8"}));
         } else {
             return [];
         }
     }
 
     //adicionando productos
-    addProduct(title, description, price, thumbnail, code, stock) {
+    async addProduct(title, description, price, thumbnail, code, stock) {
+
+        let products = await this.getProducts();
 
         //Algun argumento faltante
         if (!(title && description && price && thumbnail && code && stock)) {
             console.log("ERROR: Faltan datos para agregar el producto");
             return;
         }
-
-        let products = this.getProducts();
 
         //error porque CODE estará repetido----
         let codeExiste = products.find((codeValidator) => codeValidator.code === code);
@@ -43,19 +43,19 @@ class ProductManeger {
         products.push({id, title, description, price, thumbnail, code, stock});
 
         //Convirtiendo array en. Json
+
         fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
     }
 
     //methods buscar ID
-    getProductByID(id) {
-        const byId = this.getProducts().find((busId) => busId.id === id);
-        const found = byId === undefined ?
-            `id: ${id} No. Producto no hallado ◑﹏◐` : [byId];
-        console.log(found);
+    async getProductByID(id) {
+        const busquedaId = await this.getProducts();
+        const result = busquedaId.find((busId) => busId.id === id)
+        console.log(result === undefined ? `id: ${id} No. Producto no hallado ◑﹏◐` : result);
     }
 
     //modificando campo segun id 
-    updateProduct(id, cam) {
+    async updateProduct(id, cam) {
         fs.readFile('productM.json', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error al leer el archivo', + err);
@@ -81,7 +81,7 @@ class ProductManeger {
     }
 
     //eliminando segun id
-    deleteProduct(id) {
+    async deleteProduct(id) {
         fs.readFile('productM.json', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error al leer el archivo', + err);
@@ -107,71 +107,7 @@ class ProductManeger {
     }
 }
 
+module.exports = ProductManeger;
 
 
-//-------------------------Instance Objeto----------------
-const product = new ProductManeger("./productM.json");
-
-//======método “addProduct” con los campos, adicionando===================================
-product.addProduct(
-    "producto prueba0",
-    "Este es un producto prueba1",
-    200,
-    "Sin Imagen",
-    "abc121",
-    20
-);
-
-product.addProduct(
-    "producto prueba1",
-    "Este es un producto prueba2",
-    200,
-    "Sin Imagen",
-    "abc122",
-    30
-);
-
-//arrojar un error porque falta componente------------------------
-product.addProduct(
-    "producto prueba2",
-    "Este es un producto prueba3",
-    200,
-    "abc123",
-    40
-);
-
-
-product.addProduct(
-    "producto prueba3",
-    "Este es un producto prueba4",
-    200,
-    "Sin Imagen",
-    "abc124",
-    50
-);
-
-//arrojar un error porque el código estará repetido---------------
-product.addProduct(
-    "producto prueba5",
-    "Este es un producto prueba5",
-    200,
-    "Sin Imagen",
-    "abc124",
-    50
-);
-
-//==================Pruebas llamando a la funcion============
-//console.log('---------------buscando por id----------------
-//product.getProductByID(2); //buscar arreglo con id conincidente
-//product.getProductByID(6); //id no coincide arroja error
-//------------------------modificando id---------------------
-//product.updateProduct(1, 'id'); //error al tratar de actualizar ID
-//product.updateProduct(2, 'title');// actualization campo
-//------------------------borrando id------------------------
-//product.deleteProduct(6); //id no hallado para borrar
-//product.deleteProduct(3); //eliminar product que tenga el id
-//===========================================================
-console.log('===============productos clase===============');
-console.log(product.getProducts());
-//==========================================================
 
